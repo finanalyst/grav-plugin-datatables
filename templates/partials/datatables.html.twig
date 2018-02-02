@@ -1,0 +1,6 @@
+{{ content }}
+<script>
+$(document).ready( function () {
+    $('#{{  id }}').DataTable({% if options %}{{ options }} {% endif %});
+} );
+</script>

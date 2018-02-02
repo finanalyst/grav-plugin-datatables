@@ -1,0 +1,26 @@
+name: Datatables
+version: 0.1.0
+description: shortcode to embed DataTables jquery plugin
+icon: plug
+author:
+  name: Richard Hainsworth
+  email: rnhainsworth@gmail.com
+homepage: https://github.com/finanalyst/grav-plugin-datatables
+keywords: grav, plugin, datatables
+bugs: https://github.com/finanalyst/grav-plugin-datatables/issues
+docs: https://github.com/finanalyst/grav-plugin-datatables/blob/develop/README.md
+license: MIT
+
+form:
+  validation: strict
+  fields:
+    enabled:
+      type: toggle
+      label: Plugin status
+      highlight: 1
+      default: 0
+      options:
+        1: Enabled
+        0: Disabled
+      validate:
+        type: bool
