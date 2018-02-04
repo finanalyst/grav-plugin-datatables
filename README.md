@@ -1,6 +1,6 @@
 # Datatables Plugin
 
-The **Datatables** Plugin is for [Grav CMS](http://github.com/getgrav/grav). It provides a shortcode to embed the awesome [DataTables](https://datatables.net) jQuery plugin.
+The **Datatables** Plugin is for [Grav CMS](http://github.com/getgrav/grav). It provides two shortcodes to embed the awesome [DataTables](https://datatables.net) jQuery plugin (v1.10.16).
 
 ## Installation
 
@@ -40,31 +40,129 @@ enabled: true
 
 ## Usage
 
-All that is needed is for the body content to contain `[datatables]<!--- A table in md format[/datatables]`.
+### [datatables] Shortcode
+All that is needed is for the body content to contain
+```md
+[datatables]
+<!--- A table in md format -->
+[/datatables]
+```
 
 It is also possible to have an inner shortcode that generates an HTML table, such at the `[sql-table]` provided by the `sqlite` grav plugin.
 
-### Options
-The options all relate to the DataTable plugin which are [exhaustively documented here](https://datatables.net/reference/option/).
+#### Table id
+jQuery plugins require a selector, and the `DataTables` plugin typically uses the table id.
+
+By the time `[datatables]` is processed, the content will be an HTML Table.
+
+There are three ways the `id` can be assigned:  
+1. The HTML Table already is of the form `<table  id="SomeID">`
+2. The `grav-id` option to `[datatables]` is assigned (see below).
+3. `[datatables]` assigns a random string.
+
+>Note: if the id provided by alteratives (1) or (2) are illegal, then a random string will be assigned as the id.
+
+#### Options to [datatables]
+All but one option (`grav-id`) relate to the DataTable plugin which are [exhaustively documented here](https://datatables.net/reference/option/).
 
 For example:
 ```md
 [datatables paging=false ordering=false info=false]
-Table code
+|Field 1|Field2|
+|---|---|
+|Data|1234|
 [/datatables]
 ```
-will generate (something like) the following json object, which in turn is provided to the DataTable() function.
-```json
-{
+will generate (something like) the following
+```HTML
+<table id="qwerty">
+  <thead><tr><th>Field 1</th><th>Field2</th></tr></thead>
+  <tbody><tr><td>Data</td><td>1234</td></tr></tbody>
+</table>
+<script>
+$(document).ready( function () {
+    $('#qwerty').DataTable({
         "paging":   false,
         "ordering": false,
         "info":     false
-    }
+    });
+  });
+</script>
 ```
+
+#### `grav-id`
+In order to allow the developer to provide a specific `id`, say to link with other code, it can be added as an option to `[datatables]`, eg.
+```md
+[datatables grav-id=SomeId]
+```
+The Id must be valid HTML, which for HTML 5 is a letter and any number of non-space characters.
+
+### [dt-script] Shortcode
+In order to access the full `DataTables` jQuery plugin, extra code needs to be added to the function.
+In addition, it is necessary to pass on the unique `id` of the table to the code.
+
+This can all be done using the `[dt-script]` inner shortcode.
+So long as the shortcode is inside the `[datatables]` code, it will be added to the initialisation function.
+
+The `id` of the `<table>` is provided as the JS variable `selector`. This variable can then be used as in the examples given in the DataTables documentation.
+
+For example:
+```md
+[datatables paging=false ordering=false info=false]
+|Field 1|Field2|
+|---|---|
+|Data|1234|
+  [dt-script]
+    var table = $(selector).DataTable();
+    $(selector + ' tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    } );
+  [/dt-script]
+[/datatables]
+```
+This gets rendered as:
+```HTML
+<table id="qwerty">
+  <thead><tr><th>Field 1</th><th>Field2</th></tr></thead>
+  <tbody><tr><td>Data</td><td>1234</td></tr></tbody>
+</table>
+<script>
+$(document).ready( function () {
+    $('#qwerty').DataTable({
+        "paging":   false,
+        "ordering": false,
+        "info":     false
+    });
+    var table = $('#qwerty').DataTable();
+    $('#qwerty' + ' tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    } );
+  });
+</script>
+```
+## Limitations
+This version of the shortcode does not allow for DataTable plugins. This should be fairly easy to add by including plugin configuration codes for each plugin required.  
+However, it would be interesting to see whether there is any need to add plugins.
+
 ## Credits
 
 All the credit is due to the people at `https://datatables.net`.
 
+The version of DataTables is given in the heading.
+
 ## To Do
 
-- [ ] Future plans, if any
+- [ ] Bump the version when new versions of DataTables come out.
+- [ ] Add DataTable plugin support.

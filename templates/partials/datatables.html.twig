@@ -1,6 +1,10 @@
 {{ content }}
 <script>
 $(document).ready( function () {
-    $('#{{  id }}').DataTable({% if options %}{{ options }} {% endif %});
+    $('#{{  id }}').DataTable({% if options %}{{ options }}{% endif %});
+    {% if snippet %}
+      var selector = '#{{ id }}';
+      {{ snippet }}
+      {% endif %}
 } );
 </script>

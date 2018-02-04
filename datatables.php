@@ -10,6 +10,8 @@ use RocketTheme\Toolbox\Event\Event;
  */
 class DatatablesPlugin extends Plugin
 {
+    protected $script;
+
     public static function getSubscribedEvents()
     {
         return [
@@ -31,6 +33,7 @@ class DatatablesPlugin extends Plugin
         // Add JQuery plugin assets
         $this->grav['assets']->addCss( 'plugin://datatables/assets/datatables.min.css');
         $this->grav['assets']->addJs( 'plugin://datatables/assets/datatables.js');
+        $this->grav['datatables'] = $this->script = '';
     }
 
     public function onTwigTemplatePaths()
