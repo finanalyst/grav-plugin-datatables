@@ -47,13 +47,14 @@ All that is needed is for the body content to contain
 <!--- A table in md format -->
 [/datatables]
 ```
-
 It is also possible to have an inner shortcode that generates an HTML table, such at the `[sql-table]` provided by the `sqlite` grav plugin.
+
+>Note In the event that the content between `[datatables] ... [/datatables]` does not have a valid `<table> ... </table>` HTML container, an error message is returned with the offending content.
 
 #### Table id
 jQuery plugins require a selector, and the `DataTables` plugin typically uses the table id.
 
-By the time `[datatables]` is processed, the content will be an HTML Table.
+By the time `[datatables]` is processed, the content should be an HTML Table.
 
 There are three ways the `id` can be assigned:  
 1. The HTML Table already is of the form `<table  id="SomeID">`
@@ -153,7 +154,8 @@ $(document).ready( function () {
 </script>
 ```
 ## Limitations
-This version of the shortcode does not allow for DataTable plugins. This should be fairly easy to add by including plugin configuration codes for each plugin required.  
+This version of the shortcode does not allow for DataTable plugins. This should be fairly easy to add, perhaps by including plugin configuration codes for each plugin required.  
+
 However, it would be interesting to see whether there is any need to add plugins.
 
 ## Credits
@@ -164,5 +166,5 @@ The version of DataTables is given in the heading.
 
 ## To Do
 
-- [ ] Bump the version when new versions of DataTables come out.
+- [ ] Handle new versions of DataTables automatically.
 - [ ] Add DataTable plugin support.

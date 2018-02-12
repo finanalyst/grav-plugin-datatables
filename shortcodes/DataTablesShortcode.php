@@ -16,7 +16,8 @@ class DataTablesShortcode extends Shortcode
       if ( $res === FALSE or $res == 0) {
         // error some where
         return $this->twig->processTemplate('partials/datatables-error.html.twig',
-        [ 'message' => 'Shortcode content does not appear to have a valid &lt;table&gt;...&lt;/table&gt; element.'
+        [ 'message' => 'Shortcode content does not appear to have a valid &lt;table&gt;...&lt;/table&gt; element. Got instead:',
+          'content' => $content
         ] );
       } else {
         $res = preg_match('/(\<table\s[^>]*)id="(.*?)"(.*\>)/ims',$content,$matches);
