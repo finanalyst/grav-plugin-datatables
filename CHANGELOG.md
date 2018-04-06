@@ -7,3 +7,5 @@
     * correct blueprint typo
     * add content if no <table> found
     * modify README
+3. [](#update)
+    * Assets added in `onAssetsInitialized`
