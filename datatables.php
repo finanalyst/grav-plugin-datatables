@@ -17,7 +17,8 @@ class DatatablesPlugin extends Plugin
         return [
             'onPluginsInitialized' => ['onPluginsInitialized', 0],
             'onShortcodeHandlers' => ['onShortcodeHandlers', 0],
-            'onTwigTemplatePaths' => ['onTwigTemplatePaths',0]
+            'onTwigTemplatePaths' => ['onTwigTemplatePaths',0],
+            'onAssetsInitialized' => ['onAssetsInitialized',0]
         ];
     }
 
@@ -30,10 +31,13 @@ class DatatablesPlugin extends Plugin
         if ($this->isAdmin()) {
             return;
         }
+        $this->grav['datatables'] = $this->script = '';
+    }
+
+    public function onAssetsInitialized() {
         // Add JQuery plugin assets
         $this->grav['assets']->addCss( 'plugin://datatables/assets/datatables.min.css');
-        $this->grav['assets']->addJs( 'plugin://datatables/assets/datatables.js');
-        $this->grav['datatables'] = $this->script = '';
+        $this->grav['assets']->addJs( 'plugin://datatables/assets/datatables.min.js');
     }
 
     public function onTwigTemplatePaths()
