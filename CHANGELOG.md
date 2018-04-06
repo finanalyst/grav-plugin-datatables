@@ -1,4 +1,4 @@
-# v1.0.1
+# v1.0.3
 ##  02/01/2018
 
 1. [](#new)
@@ -7,5 +7,5 @@
     * correct blueprint typo
     * add content if no <table> found
     * modify README
-3. [](#update)
+3. [](#hotfix)
     * Assets added in `onAssetsInitialized`
