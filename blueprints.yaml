@@ -8,7 +8,7 @@ author:
 homepage: https://github.com/finanalyst/grav-plugin-datatables
 keywords: grav, plugin, datatables
 bugs: https://github.com/finanalyst/grav-plugin-datatables/issues
-docs: https://github.com/finanalyst/grav-plugin-datatables/blob/develop/README.md
+docs: https://github.com/finanalyst/grav-plugin-datatables/blob/master/README.md
 license: MIT
 
 form:
