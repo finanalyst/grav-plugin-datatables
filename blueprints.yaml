@@ -1,6 +1,6 @@
 name: Datatables
-version: 1.0.4
-description: shortcode to embed DataTables jquery plugin
+version: 1.0.3
+description: Shortcodes and Twig utility function to embed DataTables jquery plugin
 icon: plug
 author:
   name: Richard Hainsworth
@@ -10,9 +10,6 @@ keywords: grav, plugin, datatables
 bugs: https://github.com/finanalyst/grav-plugin-datatables/issues
 docs: https://github.com/finanalyst/grav-plugin-datatables/blob/master/README.md
 license: MIT
-
-dependencies:
-  - shortcode-core
 
 form:
   validation: strict

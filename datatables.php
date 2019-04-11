@@ -10,7 +10,7 @@ use RocketTheme\Toolbox\Event\Event;
  */
 class DatatablesPlugin extends Plugin
 {
-    protected $script;
+    protected $datatables;
 
     public static function getSubscribedEvents()
     {
@@ -31,7 +31,9 @@ class DatatablesPlugin extends Plugin
         if ($this->isAdmin()) {
             return;
         }
-        $this->grav['datatables'] = $this->script = '';
+        $this->datatables['script'] = '';
+        $this->datatables['utils'] = new Datatables_utilities();
+        $this->grav['datatables'] = $this->datatables;
     }
 
     public function onAssetsInitialized() {
@@ -50,4 +52,22 @@ class DatatablesPlugin extends Plugin
         $this->grav['shortcode']->registerAllShortcodes(__DIR__.'/shortcodes');
     }
 
+}
+
+class Datatables_utilities {
+
+    public function format($id, $table_options=[], $asset_options = ['group' => 'bottom']) {
+        // suggested/example invocation: {% do grav.datatables.utils.format('mytable', {'pageLength': 25}) %}
+        global $grav;
+
+        $options = ( empty($table_options) ? '' : json_encode($table_options) );
+
+        $js = <<<EOJ
+        \$(document).ready( function () {
+            \$('#{$id}').DataTable({$options});
+        } );
+EOJ;
+        $grav['assets']->addInlineJs($js, $asset_options);
+        
+    }
 }

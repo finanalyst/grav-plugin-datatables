@@ -1,6 +1,6 @@
 # Datatables Plugin
 
-The **Datatables** Plugin is for [Grav CMS](http://github.com/getgrav/grav). It provides two shortcodes to embed the awesome [DataTables](https://datatables.net) jQuery plugin (v1.10.16).
+The **Datatables** Plugin is for [Grav CMS](http://github.com/getgrav/grav). It provides two shortcodes and a Twig utility function to embed the awesome [DataTables](https://datatables.net) jQuery plugin (v1.10.16).
 
 ## Installation
 
@@ -153,8 +153,62 @@ $(document).ready( function () {
   });
 </script>
 ```
+
+### grav.datatables.utils.format Twig function
+
+This function allows developers to easily add the required Javascript to format an HTML table that is already being rendered, using DataTables _from within a Twig template_.
+
+**Syntax:** _void_ format(_string_ id, _array_ table\_options(={}), _array_ asset\_options(={'group': 'bottom'}))
+
+_"Format the table with id `id` using [DataTables options](https://datatables.net/reference/option/) `table_options` and [Grav asset manager options](https://learn.getgrav.org/15/themes/asset-manager#for-js) `asset_options`."_
+
+**Example:**
+
+```twig
+<table id="qwerty">
+  <thead><tr><th>Field 1</th><th>Field2</th></tr></thead>
+  <tbody><tr><td>Data</td><td>1234</td></tr></tbody>
+</table>
+…
+{% do grav.datatables.utils.format('qwerty', {'pageLength': 25}) %}
+```
+
+which is the Twig equivalent of:
+
+```twig
+<table id="qwerty">…
+…
+{% set datatables_inline_js %}
+$(document).ready( function () {
+    $('#qwerty').DataTable({
+      'pageLength': 25
+      });
+} );
+{% endset %}
+{% do assets.addInlineJS(datatables_inline_js, {'group': 'bottom'} )  %}
+```
+
+and would be served to the browser as:
+
+```HTML
+<table id="qwerty">…
+…
+<!-- somewhere near the bottom of <body> … -->
+<script>
+$(document).ready( function () {
+    $('#qwerty').DataTable({
+      'pageLength': 25
+      });
+} );
+</script>
+```
+
+So essentially it's a very convenient Twig shorthand for the Javascript required to format a table.
+
+> `format` could also be invoked using Twig print expression delimiters (eg. `{{ grav.datatables.utils.format('mytable') }}`), but since this function returns no value it is more idiomatic to use a [`do` tag](https://twig.symfony.com/doc/2.x/tags/do.html).
+
 ## Limitations
-This version of the shortcode does not allow for DataTable plugins. This should be fairly easy to add, perhaps by including plugin configuration codes for each plugin required.  
+This version of the plugin does not allow for DataTable plugins. This should be fairly easy to add, perhaps by including plugin configuration codes for each plugin required.  
 
 However, it would be interesting to see whether there is any need to add plugins.
 
