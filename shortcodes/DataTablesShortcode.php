@@ -16,13 +16,13 @@ class DataTablesShortcode extends Shortcode
 
       $hasTable = preg_match('/\<table[^>]*?\>(.*)\<\/table[^>]*\>/ims', $content);
       if ($hasTable === FALSE or $hasTable == 0) {
-        return htmlspecialchars_decode($this->twig->processTemplate(
+        return $this->twig->processTemplate(
           'partials/datatables-error.html.twig',
           [
             'message' => 'Shortcode content does not appear to have a valid &lt;table&gt;...&lt;/table&gt; element. Got instead:',
             'content' => $content
           ]
-        ));
+        );
       }
 
       // Get id from html and remove the id attribute
@@ -60,7 +60,6 @@ class DataTablesShortcode extends Shortcode
           'snippet' => $this->grav['datatables']
         ]
       );
-      $output = htmlspecialchars_decode($output);
       $this->grav['datatables'] = '';
       return $output;
     });
