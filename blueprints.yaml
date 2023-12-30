@@ -1,5 +1,5 @@
 name: Datatables
-version: 1.0.4
+version: 1.0.5
 description: shortcode to embed DataTables jquery plugin
 icon: plug
 author:
@@ -12,7 +12,9 @@ docs: https://github.com/finanalyst/grav-plugin-datatables/blob/master/README.md
 license: MIT
 
 dependencies:
-  - shortcode-core
+  - { name: shortcode-core, tested: "5.1.3" }
+  - { name: error, tested: "1.8.0" }
+  - { name: problems, tested: "2.1.1" }
 
 form:
   validation: strict
