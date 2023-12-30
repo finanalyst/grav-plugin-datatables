@@ -1,10 +1,11 @@
 {{ content }}
+
 <script>
-$(document).ready( function () {
-    $('#{{  id }}').DataTable({% if options %}{{ options }}{% endif %});
-    {% if snippet %}
-      var selector = '#{{ id }}';
-      {{ snippet }}
+  $(document).ready( function () {
+      $('#{{  id }}').DataTable({% if options %}JSON.parse("{{options|escape('js')}}"){% endif %});
+      {% if snippet %}
+        const selector = '#{{ id }}';
+        {{ snippet }}
       {% endif %}
-} );
+  } );
 </script>
